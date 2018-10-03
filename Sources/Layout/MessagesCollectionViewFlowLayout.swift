@@ -151,7 +151,7 @@ open class MessagesCollectionViewFlowLayout: UICollectionViewFlowLayout {
         case .location:
             return locationMessageSizeCalculator
         case .custom:
-            fatalError("Must return a CellSizeCalculator for MessageKind.custom(Any?)")
+            return messagesLayoutDelegate.customCellSizeCalculator(for: message, at: indexPath, in: messagesCollectionView)
         }
     }
 
