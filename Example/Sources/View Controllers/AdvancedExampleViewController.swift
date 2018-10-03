@@ -23,8 +23,9 @@
  */
 
 import UIKit
-import MessageKit
 import MapKit
+import MessageKit
+import MessageInputBar
 
 final class AdvancedExampleViewController: ChatViewController {
         
@@ -200,7 +201,7 @@ final class AdvancedExampleViewController: ChatViewController {
     
     // MARK: - UICollectionViewDataSource
     
-    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let messagesDataSource = messagesCollectionView.messagesDataSource else {
             fatalError("Ouch. nil data source for messages")
@@ -223,7 +224,7 @@ final class AdvancedExampleViewController: ChatViewController {
 
     override func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if isTimeLabelVisible(at: indexPath) {
-            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedStringKey.foregroundColor: UIColor.darkGray])
+            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
         }
         return nil
     }
@@ -231,7 +232,7 @@ final class AdvancedExampleViewController: ChatViewController {
     override func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if !isPreviousMessageSameSender(at: indexPath) {
             let name = message.sender.displayName
-            return NSAttributedString(string: name, attributes: [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .caption1)])
+            return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
         }
         return nil
     }
@@ -239,7 +240,7 @@ final class AdvancedExampleViewController: ChatViewController {
     override func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
 
         if !isNextMessageSameSender(at: indexPath) && isFromCurrentSender(message: message) {
-            return NSAttributedString(string: "Delivered", attributes: [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .caption1)])
+            return NSAttributedString(string: "Delivered", attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
         }
         return nil
     }
@@ -256,7 +257,7 @@ extension AdvancedExampleViewController: MessagesDisplayDelegate {
         return isFromCurrentSender(message: message) ? .white : .darkText
     }
 
-    func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedStringKey: Any] {
+    func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
         return MessageLabel.defaultAttributes
     }
 
